@@ -1,7 +1,7 @@
 import warnings
 import os
 warnings.filterwarnings('ignore')
-os.environ["CUDA_VISIBLE_DEVICES"]="2,3,4"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3,4"
 from ultralytics import YOLO
 if __name__ == '__main__':
     model = YOLO('./ultralytics/cfg/models/11/yolo11n.yaml')   # 修改yaml
@@ -13,7 +13,7 @@ if __name__ == '__main__':
         imgsz=[640,640],  # (int) 输入图像的大小，整数或w，h
         save_period=-1,  # (int) 每x周期保存检查点（如果小于1则禁用）
         cache=True,  # (bool) True/ram、磁盘或False。使用缓存加载数据
-        device='2,3,4',  # (int | str | list, optional) 运行的设备，例如 cuda device=0 或 device=0,1,2,3 或 device=cpu
+        device='0',  # (int | str | list, optional) 运行的设备，例如 cuda device=0 或 device=0,1,2,3 或 device=cpu
         project='runs/train',  # (str, optional) 项目名称
         name='exp',  # (str, optional) 实验名称，结果保存在'project/name'目录下
         exist_ok=False,  # (bool) 是否覆盖现有实验

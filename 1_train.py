@@ -3,12 +3,12 @@ import os
 warnings.filterwarnings('ignore')
 from ultralytics import YOLO
 if __name__ == '__main__':
-    model = YOLO('./ultralytics/cfg/models/v5/yolov5n.yaml')   # 修改yaml
-    model.load('./weights/yolov5n.pt')  #加载预训练权重
+    model = YOLO('./ultralytics/cfg/models/v8/yolov8n.yaml')   # 修改yaml
+    model.load('./weights/yolov8n.pt')  #加载预训练权重
     model.train(
-        data=r'./data/bgxray.yaml',
+        data=r'./data/catdog.yaml',
         epochs=300,  # (int) 训练的周期数
-        batch=16,  # (int) 每批次的图像数量（-1 为自动批处理）
+        batch=32,  # (int) 每批次的图像数量（-1 为自动批处理）
         imgsz=[640,640],  # (int) 输入图像的大小，整数或w，h
         save_period=-1,  # (int) 每x周期保存检查点（如果小于1则禁用）
         cache=True,  # (bool) True/ram、磁盘或False。使用缓存加载数据

@@ -21,4 +21,4 @@ def letterbox(img, new_shape=(640, 640), color=(114, 114, 114)):
     left, right = int(round(dw - 0.1)), int(round(dw + 0.1))
     img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  # add border
 
-    return img
+    return img,r,dw,dh

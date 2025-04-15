@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 if __name__ == '__main__':
     # 加载模型
-    model = YOLO(r'pt/8_n.pt')  # YOLOv11n模型
+    model = YOLO(r'pt/catdog/v8_n.pt')  # YOLOv11n模型
     model.predict(
         source=r'images/',
         save=True,  # 保存预测结果

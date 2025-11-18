@@ -13,7 +13,7 @@ onnx_path=r'./pt/bftuan/v2/bf_yolo11_n.onnx'
 imgspath=r'C:\G\Baofeng\proj\3_det_seg\all_imgs\imgs1'
 w,h=640,640
 
-score_threshold=0.35
+score_threshold=0.5
 nms_threshold=0.3
 
 if not os.path.exists('./results'):
@@ -47,9 +47,6 @@ session = ort.InferenceSession(onnx_path,providers=['CPUExecutionProvider'])
 for pic_path in tqdm(imgpaths):
     basename=os.path.basename(pic_path)
     img=cv2.imread(pic_path)
-    o_H,o_W=img.shape[0],img.shape[1]
-    ratio_w=o_W/w
-    ratio_h=o_H/h
     imgbak=img.copy()
     img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img=cv2.resize(img,(w,h))
@@ -90,20 +87,18 @@ for pic_path in tqdm(imgpaths):
         box = boxes[i]
         id=class_ids[i]
         score=scores[i]
-        # x1=int((box[0]-dw)/r)
-        # y1=int((box[1]-dh)/r)
-        # x2=int(((box[0]+box[2])-dw)/r)
-        # y2=int(((box[1]+box[3])-dh)/r)
-
-        x1=int((box[0]-dw)/r*ratio_w)
-        y1=int((box[1]-dh)/r*ratio_h)
-        x2=int(((box[0]+box[2])-dw)/r*ratio_w)
-        y2=int(((box[1]+box[3])-dh)/r*ratio_h)
-
+        # x1=int(box[0]*w_ratio)
+        # y1=int(box[1]*h_ratio)
+        # x2=int((box[0]+box[2])*w_ratio)
+        # y2=int((box[1]+box[3])*h_ratio)
+        x1=int((box[0]-dw)/r)
+        y1=int((box[1]-dh)/r)
+        x2=int(((box[0]+box[2])-dw)/r)
+        y2=int(((box[1]+box[3])-dh)/r)
         color=palette[id]
-        cv2.rectangle(imgbak, (x1, y1), (x2, y2), color, 3)
-        cv2.putText(imgbak, '{}:{:.6f}'.format(label[int(id)], float(score)), (x1, y1 + 47),
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, palette[int(id)], 3)
+        cv2.rectangle(imgbak, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(imgbak, '{}:{:.6f}'.format(label[int(id)], float(score)), (x1, y1 + 15),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.2, palette[int(id)], 1)
 
     cv2.imwrite('./results/{}_res.jpg'.format(basename),imgbak)
 

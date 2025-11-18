@@ -7,14 +7,13 @@ import numpy as np
 import cv2
 from tqdm import  tqdm
 from imutils import paths
-from letterBOX import letterbox
 #¬∑æ∂≈‰÷√
-onnx_path=r'./pt/bftuan/v2/bf_yolo11_n.onnx'
-imgspath=r'C:\G\Baofeng\proj\3_det_seg\all_imgs\imgs1'
+onnx_path=r'./pt/catdog/11_n.onnx'
+imgspath=r'C:\D\github_zl\CatDogDetDataSetV2/'
 w,h=640,640
 
-score_threshold=0.35
-nms_threshold=0.3
+score_threshold=0.25
+nms_threshold=0.45
 
 if not os.path.exists('./results'):
     os.makedirs('./results')
@@ -29,9 +28,10 @@ palette={0:(0,255,0),
     7:(0,255,255)}
 
 
-label={0:'TA',
-       1:'LV',
-}
+label={0:'cat',
+       1:'dog',
+       2:'eagle',
+       3:'elephant'}
 
 # label={0:'BOX'}
 
@@ -47,14 +47,12 @@ session = ort.InferenceSession(onnx_path,providers=['CPUExecutionProvider'])
 for pic_path in tqdm(imgpaths):
     basename=os.path.basename(pic_path)
     img=cv2.imread(pic_path)
-    o_H,o_W=img.shape[0],img.shape[1]
-    ratio_w=o_W/w
-    ratio_h=o_H/h
+    H,W=img.shape[0],img.shape[1]
+    h_ratio=H/h
+    w_ratio=W/w
     imgbak=img.copy()
     img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img=cv2.resize(img,(w,h))
-    img,r,dw,dh=letterbox(img,h,w)
-    img=img.astype(np.float32)
+    img=cv2.resize(img,(w,h)).astype(np.float32)
     img = img / 255.0
     img=np.array([np.transpose(img,(2,0,1))])
 
@@ -85,25 +83,20 @@ for pic_path in tqdm(imgpaths):
             class_ids.append(maxClassIndex)
 
     # Apply NMS (Non-maximum suppression)
-    indices = cv2.dnn.NMSBoxes(bboxes=boxes, scores=scores, score_threshold=score_threshold, nms_threshold=nms_threshold)
-    for i in indices:
-        box = boxes[i]
-        id=class_ids[i]
-        score=scores[i]
-        # x1=int((box[0]-dw)/r)
-        # y1=int((box[1]-dh)/r)
-        # x2=int(((box[0]+box[2])-dw)/r)
-        # y2=int(((box[1]+box[3])-dh)/r)
-
-        x1=int((box[0]-dw)/r*ratio_w)
-        y1=int((box[1]-dh)/r*ratio_h)
-        x2=int(((box[0]+box[2])-dw)/r*ratio_w)
-        y2=int(((box[1]+box[3])-dh)/r*ratio_h)
-
+    result_boxes = cv2.dnn.NMSBoxes(bboxes=boxes, scores=scores, score_threshold=score_threshold, nms_threshold=nms_threshold)
+    for i in range(len(result_boxes)):
+        index = result_boxes[i][0]
+        box = boxes[index]
+        id=class_ids[index]
+        score=scores[index]
+        x1=int(box[0]*w_ratio)
+        y1=int(box[1]*h_ratio)
+        x2=int((box[0]+box[2])*w_ratio)
+        y2=int((box[1]+box[3])*h_ratio)
         color=palette[id]
-        cv2.rectangle(imgbak, (x1, y1), (x2, y2), color, 3)
-        cv2.putText(imgbak, '{}:{:.6f}'.format(label[int(id)], float(score)), (x1, y1 + 47),
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, palette[int(id)], 3)
+        cv2.rectangle(imgbak, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(imgbak, '{}:{:.2f}'.format(label[int(id)], float(score)), (x1, y1 - 5),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, palette[int(id)], 1)
 
     cv2.imwrite('./results/{}_res.jpg'.format(basename),imgbak)
 

@@ -9,7 +9,7 @@ from tqdm import  tqdm
 from imutils import paths
 from letterBOX import letterbox
 #路径配置
-onnx_path=r'./pt/bftuan/v2/bf_yolo11_n.onnx'
+onnx_path=r'./onnx/best-smi.onnx'
 imgspath=r'C:\G\Baofeng\proj\3_det_seg\all_imgs\imgs1'
 w,h=640,640
 
@@ -33,7 +33,7 @@ label={0:'TA',
        1:'LV',
 }
 
-# label={0:'BOX'}
+
 
 
 imgpaths=list(paths.list_images(imgspath))
@@ -51,16 +51,16 @@ for pic_path in tqdm(imgpaths):
     ratio_w=o_W/w
     ratio_h=o_H/h
     imgbak=img.copy()
-    img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img=cv2.resize(img,(w,h))
     img,r,dw,dh=letterbox(img,h,w)
-    img=img.astype(np.float32)
-    img = img / 255.0
+    # img=img.astype(np.float32)
+    # img = img / 255.0
     img=np.array([np.transpose(img,(2,0,1))])
 
 
     #模型推理
-    outputs = session.run(None,input_feed = { 'images' : img })
+    outputs = session.run(None,input_feed = { 'input' : img })
 
     outputs = np.array([cv2.transpose(outputs[0][0])])
     rows = outputs.shape[1]

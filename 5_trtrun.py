@@ -114,7 +114,7 @@ if __name__ == "__main__":
              1: 'dog',
              2: 'eagle',
              3: 'elephant'}
-    score_threshold = 0.5
+    score_threshold = 0.65
     nms_threshold = 0.45
 
 

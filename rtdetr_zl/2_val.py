@@ -1,11 +1,21 @@
+import sys
+import os
+
+# 获取当前脚本的目录路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 获取上一级目录（project/）的路径
+parent_dir = os.path.dirname(current_dir)
+# 将上一级目录添加到 Python 搜索路径
+sys.path.append(parent_dir)
+
 from ultralytics import YOLO,RTDETR
 
 if __name__ == '__main__':
     # 加载模型
-    model = YOLO(r'pt/catdog/v8_n.pt')  # YOLOv11n模型
-    # model = RTDETR(r'pt/baofeng/v1/rtdetr-l.pt')  # YOLOv11n模型
+    # model = YOLO(r'pt/catdog/v8_n.pt')  # YOLOv11n模型
+    model = RTDETR(r'../pt/baofeng/v1/rtdetr-l.pt')  # YOLOv11n模型
     model.predict(
-        source=r'images/baofeng/',
+        source=r'../images/baofeng/',
         save=True,  # 保存预测结果
         imgsz=[640,640],  # 输入图像的大小，可以是整数或w，h
         conf=0.25,  # 用于检测的目标置信度阈值（默认为0.25，用于预测，0.001用于验证）

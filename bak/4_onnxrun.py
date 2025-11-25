@@ -60,7 +60,7 @@ for pic_path in tqdm(imgpaths):
 
 
     #模型推理
-    outputs = session.run(None,input_feed = { 'images' : img })
+    outputs = session.run(None,input_feed = { 'input' : img })
 
     outputs = np.array([cv2.transpose(outputs[0][0])])
     rows = outputs.shape[1]

@@ -4,3 +4,5 @@ runs/
 pt/
 results/
 images/
+onnx/
+yolov10_zl/results_trt_batch/

@@ -146,8 +146,8 @@ def main(weight_path, onnx_path, topk, num_classes):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weight-path', type=str, default='pt/baofeng/v1/rtdetr-l.pt')
-    parser.add_argument('--outpath', type=str, default='./onnx/best_final.onnx')
+    parser.add_argument('--weight-path', type=str, default='../pt/baofeng/v1/rtdetr-l.pt')
+    parser.add_argument('--outpath', type=str, default='../onnx/best_final.onnx')
     parser.add_argument('--topk', type=int, default=150, help='Number of output boxes')
     # 新增参数
     parser.add_argument('--num-classes', type=int, default=2, help='Number of classes in your dataset (default: 2)')

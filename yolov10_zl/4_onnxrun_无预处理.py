@@ -9,7 +9,7 @@ from imutils import paths
 from letterBOX import letterbox
 
 # --- ≈‰÷√ ---
-onnx_path = r'../onnx/best_final.onnx'
+onnx_path = r'../onnx/best-smi.onnx'
 imgspath = r'../images/baofeng'
 w, h = 640, 640  # ƒ£–Õ ‰»Î≥ﬂ¥Á
 score_threshold = 0.45
@@ -103,7 +103,7 @@ for pic_path in tqdm(imgpaths):
         label_text = label.get(class_id, str(class_id))
         cv2.putText(imgbak, '{}:{:.2f}'.format(label_text, float(score)), (x1, y1 - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 2)
-
+    basename=basename.replace('.png','.jpg')
     cv2.imwrite(f'./results/{basename}', imgbak)
 
 print("Done.")

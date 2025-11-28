@@ -15,7 +15,7 @@ from ultralytics import YOLO,RTDETR
 if __name__ == '__main__':
     # model = YOLO('./ultralytics/cfg/models/11/yolo11.yaml')   # 修改yaml
     # model.load('./weights/yolo11s.pt')  #加载预训练权重
-    model = YOLO('./weights/yolov10s.pt')
+    model = YOLO('../weights/yolov10m.pt')
     # model =RTDETR('./weights/rtdetr-l.pt')
     model.train(
         data=r'./data/bftuan.yaml',
@@ -37,15 +37,15 @@ if __name__ == '__main__':
         resume=False,  # (bool) 从上一个检查点恢复训练
         amp=True,  # (bool) 自动混合精度（AMP）训练，选择=[True, False]，True运行AMP检查
         # 超参数 ----------------------------------------------------------------------------------------------
-        # lr0=0.0005,  # (float) 初始学习率（例如，SGD=1E-2，Adam=1E-3）
-        # lrf=0.0001,  # (float) 最终学习率（lr0 * lrf）
-        # momentum=0.937,  # (float) SGD动量/Adam beta1
-        # weight_decay=0.0005,  # (float) 优化器权重衰减 5e-4
-        # warmup_epochs=3.0,  # (float) 预热周期（分数可用）
-        # warmup_momentum=0.8,  # (float) 预热初始动量
-        # warmup_bias_lr=0.1,  # (float) 预热初始偏置学习率
+        lr0=0.0002,  # (float) 初始学习率（例如，SGD=1E-2，Adam=1E-3）
+        lrf=0.0001,  # (float) 最终学习率（lr0 * lrf）
+        momentum=0.937,  # (float) SGD动量/Adam beta1
+        weight_decay=0.0005,  # (float) 优化器权重衰减 5e-4
+        warmup_epochs=3.0,  # (float) 预热周期（分数可用）
+        warmup_momentum=0.8,  # (float) 预热初始动量
+        warmup_bias_lr=0.1,  # (float) 预热初始偏置学习率
         workers=8,
-        #数据增强
+        # 数据增强
         hsv_h=0.015,  # (float) image HSV-Hue augmentation (fraction)
         hsv_s=0.7,  # (float) image HSV-Saturation augmentation (fraction)
         hsv_v=0.4,  # (float) image HSV-Value augmentation (fraction)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         scale=0.2 , # (float) image scale (+/- gain)
         shear=0.1,  # (float) image shear (+/- deg)
         perspective=0.0,  # (float) image perspective (+/- fraction), range 0-0.001
-        flipud=0.05,  # (float) image flip up-down (probability)
+        flipud=0.1,  # (float) image flip up-down (probability)
         fliplr=0.3,  # (float) image flip left-right (probability)
         bgr=0.1,  # (float) image channel BGR (probability)
         mosaic=0.5,  # (float) image mosaic (probability)

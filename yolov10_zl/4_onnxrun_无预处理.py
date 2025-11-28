@@ -101,7 +101,7 @@ for pic_path in tqdm(imgpaths):
         cv2.rectangle(imgbak, (x1, y1), (x2, y2), color, 3)
 
         label_text = label.get(class_id, str(class_id))
-        cv2.putText(imgbak, '{}:{:.2f}'.format(label_text, float(score)), (x1, y1 - 10),
+        cv2.putText(imgbak, '{}:{:.6f}'.format(label_text, float(score)), (x1, y1 - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 2)
     basename=basename.replace('.png','.jpg')
     cv2.imwrite(f'./results/{basename}', imgbak)

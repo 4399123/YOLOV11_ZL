@@ -105,8 +105,8 @@ class TrtModel:
 if __name__ == "__main__":
     # --- 配置 ---
     w, h = 640, 640
-    trt_engine_path = r'./onnx/best-smi.engine'  # 确保路径正确
-    img_path = r'./images/baofeng'
+    trt_engine_path = r'../onnx/best-smi.engine'  # 确保路径正确
+    img_path = r'../images/baofeng'
     score_threshold = 0.45
 
     # 设置 Batch Size
